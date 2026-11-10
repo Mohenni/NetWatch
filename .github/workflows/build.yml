@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build with the compiler that is part of Windows
         shell: cmd
-        run: build.bat
+        run: call build.bat
       - name: Self-test with made-up traffic (no administrator rights needed)
         # opens the real window on the build machine; a problem here should not hide the build result
         continue-on-error: true
