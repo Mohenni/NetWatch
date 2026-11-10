@@ -1,0 +1,11 @@
+# Build results: these are attached to the GitHub releases instead of living in the repository.
+/bin/
+/NetWatchSetup.exe
+*.pdb
+
+# Python
+__pycache__/
+*.pyc
+
+# Notes that are not part of the project
+/REDDIT_POST.md

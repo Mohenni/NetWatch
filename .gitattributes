@@ -1,0 +1,6 @@
+# Shell scripts must keep Unix line endings even when checked out on Windows, or they will not run.
+*.sh  text eol=lf
+*.py  text eol=lf
+*.bat text eol=crlf
+*.ico binary
+*.png binary

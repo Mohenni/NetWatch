@@ -1,0 +1,65 @@
+name: Build and test
+
+# Runs on every upload: builds the Windows program from source and tries the
+# Linux / macOS edition on real Linux and macOS machines.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with the compiler that is part of Windows
+        shell: cmd
+        run: build.bat
+      - name: Self-test with made-up traffic (no administrator rights needed)
+        # opens the real window on the build machine; a problem here should not hide the build result
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force out | Out-Null
+          $p = Start-Process -FilePath bin\NetWatch.exe -ArgumentList '--selftest', "$PWD\out" -PassThru
+          if (-not $p.WaitForExit(120000)) { $p.Kill(); throw "self-test timed out" }
+          if (Test-Path out\errors.txt) { Get-Content out\errors.txt; throw "self-test reported errors" }
+          if (-not (Test-Path out\done.txt)) { throw "self-test did not finish" }
+          Get-Content out\clicks.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NetWatch-windows
+          path: |
+            NetWatchSetup.exe
+            bin/NetWatch.exe
+
+  unix:
+    name: ${{ matrix.os }} edition
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parser self-test
+        run: python3 unix/netwatch.py --selftest
+      - name: Installer puts the command in place
+        run: |
+          sh install.sh
+          test -x "$HOME/.local/bin/netwatch"
+      - name: Watch real traffic for 15 seconds
+        run: |
+          # Produce some traffic while NetWatch is looking. The download is slowed down on purpose so
+          # that it lasts a few seconds: NetWatch looks once a second and would miss a quick one.
+          (sleep 3; for i in 1 2; do curl -sL --limit-rate 40k -o /dev/null https://github.com/Mohenni/NetWatch/archive/refs/heads/main.zip; sleep 1; done) &
+          sudo python3 unix/netwatch.py --check 15
+      - name: Uninstall
+        run: |
+          sh install.sh --uninstall
+          test ! -e "$HOME/.local/bin/netwatch"
