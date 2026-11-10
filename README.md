@@ -1,6 +1,6 @@
 # NetWatch
 
-**See which programs on your PC send and receive data — how much, and to which servers.**
+**See which programs on your PC send and receive data: how much, and to which servers.**
 
 Free, open source, no ads, no tracking, no account. NetWatch itself sends nothing anywhere.
 
@@ -17,7 +17,7 @@ Free, open source, no ads, no tracking, no account. NetWatch itself sends nothin
 - **Block a program.** One button adds an ordinary Windows Firewall rule; the Blocked tab undoes it.
   Nothing is ever blocked unless you press Block and confirm.
 - **Hide Windows' own processes** with one click, so only the programs you installed remain.
-- **Unusual programs glow red** — see [below](#the-red-unusual-mark) for exactly what that means.
+- **Unusual programs glow red.** See [below](#the-red-unusual-mark) for exactly what that means.
 - **Sort** any list by clicking a column title.
 
 ## Install
@@ -30,7 +30,7 @@ Free, open source, no ads, no tracking, no account. NetWatch itself sends nothin
 Good to know:
 
 - **Windows will warn you** ("Windows protected your PC" / "Unknown publisher"). NetWatch is not
-  code-signed, because a certificate costs money every year. Choose *More info* → *Run anyway* — or
+  code-signed, because a certificate costs money every year. Choose *More info* → *Run anyway*, or
   don't trust the download at all and [build it yourself](#build-it-yourself) in ten seconds.
 - **NetWatch asks for administrator permission each time it starts.** Windows only tells
   administrators which program sends what; there is no way around that question.
@@ -105,8 +105,8 @@ On Windows, NetWatch reads the same information Resource Monitor uses: Event Tra
 | `Microsoft-Windows-Kernel-Process` | process start / stop, so short-lived programs still get a name |
 | `Microsoft-Windows-DNS-Client` | which host name an address belongs to |
 
-No driver is installed, nothing is injected into other programs, and packet contents are never read
-— only *how much* and *where to*.
+No driver is installed, nothing is injected into other programs, and packet contents are never read,
+only *how much* and *where to*.
 
 A few honest details:
 
@@ -144,19 +144,6 @@ unix/        the Linux / macOS edition (one Python file)
 Useful switches for developers: `NetWatch.exe --demo` (made-up traffic, no administrator rights),
 `--selftest <folder>` (drives the window by itself and saves pictures), `--diag <file>` (writes a
 text report every ten seconds).
-
-## Support the project
-
-NetWatch is free. If it is useful to you, you can say thank you with Bitcoin:
-
-```
-bc1qe53lfh6535w4h3py7pwfhcml32lpq9rty55l5p
-```
-
-The same address is behind the *Donate* button in the program. Donating changes nothing about how
-NetWatch works.
-
-![The donate window](docs/donate.png)
 
 ## Licence
 
