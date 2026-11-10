@@ -38,7 +38,7 @@ Good to know:
   not uploaded by hand. `SHA256SUMS.txt` lists their checksums.
 - Remove it again under *Settings → Apps*. The uninstaller offers to remove your blocks as well.
 
-### Linux and macOS (experimental)
+### Linux and macOS
 
 A smaller edition that shows the same lists in a page in your own browser. It is a single Python
 file and needs nothing but Python 3.7+ and tools that are already part of the system.
